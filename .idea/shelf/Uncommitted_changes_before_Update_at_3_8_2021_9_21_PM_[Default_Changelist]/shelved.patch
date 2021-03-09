@@ -1,0 +1,39 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>print(\"hello\")
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision 714ddced74ffce2b9bf581fc8cb1bf2c0c1b7f30)
++++ b/main.py	(date 1611900407575)
+@@ -1,1 +1,26 @@
+-print("hello")
+\ No newline at end of file
++import sqlite3 as sl
++from pathlib import Path
++import os
++
++if Path('Records.db').is_file():  # Check to see if database has been created
++    os.remove('Records.db')  # Delete 'Records.db'
++    print('removing database...')
++
++con = sl.connect('Records.db')
++
++with con:
++    con.execute("""
++        CREATE TABLE USER (
++            Id INTEGER,
++            First TEXT,
++            Last TEXT,
++            Employer INTEGER
++        );
++    """)
++    sql = 'INSERT INTO USER (Id, First, Last, ) values(?, ?, ?, ?)'
++    data = [
++        (1, 'Alice', 'Claire', 2),
++        (2, 'Bob', 'McCullan', 3),
++        (3, 'Chris', 'Evans', 0)
++    ]
++    con.executemany(sql, data)
